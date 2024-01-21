@@ -12,6 +12,9 @@ class Item(models.Model):
     weight = models.DecimalField(max_digits=10, decimal_places=1)
     height = models.DecimalField(max_digits=10, decimal_places=1)
     width = models.DecimalField(max_digits=10, decimal_places=2)
+    class Meta:
+        verbose_name_plural = "Товары"
+        verbose_name = "Товар"
 
     def __str__(self):
         return self.title
@@ -29,6 +32,9 @@ class Order(models.Model):
     user = models.ForeignKey(to="midas.User", on_delete=models.CASCADE)
     items = models.ManyToManyField(to="product.Item")
     # endregion
+    class Meta:
+        verbose_name_plural = "Заказы"
+        verbose_name = "Заказ"
 
     def __str__(self):
         return str(self.id)
@@ -36,6 +42,9 @@ class Order(models.Model):
 
 class Supply(models.Model):
     data = models.JSONField()
+    class Meta:
+        verbose_name_plural = "Поставки"
+        verbose_name = "Поставка"
 
     def __str__(self):
         return str(self.id)
