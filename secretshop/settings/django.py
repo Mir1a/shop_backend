@@ -190,10 +190,10 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
-        'django.db.backends': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-        }
+        # 'django.db.backends': {
+        #     'level': 'DEBUG',
+        #     'handlers': ['console'],
+        # }
     }
 }
 # endregion

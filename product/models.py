@@ -30,7 +30,7 @@ class Order(models.Model):
 
     # region           -----Relation-----
     user = models.ForeignKey(to="midas.User", on_delete=models.CASCADE)
-    items = models.ManyToManyField(to="product.Item")
+    items = models.ManyToManyField(to="product.Item", related_name="orders")
     # endregion
     class Meta:
         verbose_name_plural = "Заказы"
