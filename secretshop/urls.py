@@ -35,7 +35,8 @@ swagger_urlpatterns = [
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("api/", include("midas.urls"))
+    path("api/", include("midas.urls")),
+    path("api/", include("product.urls"))
 ]
 
 urlpatterns += swagger_urlpatterns\

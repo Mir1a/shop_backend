@@ -3,6 +3,7 @@ from django import shortcuts
 from ..general import serializers
 from ...models import User
 from . import permissions
+from product.models import Item
 
 
 class UserViewSet(viewsets.GenericViewSet,
