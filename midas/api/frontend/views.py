@@ -1,19 +1,40 @@
-from rest_framework import viewsets, mixins, renderers, permissions as rest_permissions
+# region				-----External Imports-----
+from rest_framework import viewsets, mixins as rest_mixins, renderers, permissions as rest_permissions
 from django import shortcuts
-from ..general import serializers
+from utils import mixins as utils_mixins
+# endregion
+
+# region				-----Internal Imports-----
 from ...models import User
 from . import permissions
-from product.models import Item
+from . import serializers
+# endregion
 
 
-class UserViewSet(viewsets.GenericViewSet,
-                  mixins.RetrieveModelMixin,
-                  mixins.CreateModelMixin,
-                  mixins.DestroyModelMixin):
-    serializer_class = serializers.UserSerializer
-    queryset = User.objects.all()
+class UserViewSet(utils_mixins.DynamicSerializersViewSet,
+                  utils_mixins.PrefetchableRetrieveMixin,
+                  rest_mixins.CreateModelMixin,
+                  rest_mixins.UpdateModelMixin,
+                  rest_mixins.DestroyModelMixin):
+    # region		   -----Dynamic Serializers-----
+    default_serializer_class = serializers.ReadUserSerializer
+    serializer_classes = {"create": serializers.RegisterUserSerializer,
+                          "partial_update": serializers.WriteUserSerializer}
+    # endregion
+
+    # region		   -----Default Parameters-----
+    queryset = User.objects
     renderer_classes = [renderers.JSONRenderer]
     permission_classes = [permissions.CreateOrIsAuthenticated]
+    # endregion
+
+    # region		   -----Prefetch Functions-----
+    def _prefetch_retrieve(self, queryset):
+        return queryset\
+            .prefetch_related("favorites")\
+            .only('id', 'name', 'email', 'last_name',
+                  'avatar', 'born')
+    # endregion
 
     # region		    -----Default Function-----
     def get_object(self):

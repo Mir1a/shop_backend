@@ -6,7 +6,7 @@ from product.models import Item
 
 class ItemViewSet(viewsets.GenericViewSet,
                   mixins.RetrieveModelMixin,
-                  mixins.ListModelMixin):
+                  mixins.CreateModelMixin):
     serializer_class = serializers.ItemSerializer
     queryset = Item.objects.all()
     permission_classes = []
