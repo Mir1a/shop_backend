@@ -41,7 +41,6 @@ class ItemViewSet(utils_mixins.DynamicSerializersViewSet,
         return queryset\
             .only("id", "title", "price", "description")
 
-
 class OrderViewSet(utils_mixins.DynamicSerializersViewSet,
                   utils_mixins.PrefetchableRetrieveMixin,
                   utils_mixins.PrefetchableListMixin,):
@@ -52,6 +51,16 @@ class OrderViewSet(utils_mixins.DynamicSerializersViewSet,
     queryset = Order.objects
     renderer_classes = [renderers.JSONRenderer]
     permission_classes = []
+    pagination_class = utils_paginators.StandartPagePaginator
+
+    #region sort and filters
+    filter_backends = [product_filters.OrderFilterBackend,
+                       rest_filters.OrderingFilter,
+                       filters.DjangoFilterBackend]
+    filterset_class = product_filters.OrderFilterSet
+    ordering_fields = ["id", "sum_price"]
+    ordering = ["id"]
+    #endregion
 
     def _prefetch_list(self, queryset):
         return queryset\
