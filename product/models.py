@@ -1,6 +1,7 @@
 from django.db import models
 from django.core import validators
 from . import choices
+from multiselectfield import MultiSelectField
 
 
 class Item(models.Model):
@@ -12,6 +13,14 @@ class Item(models.Model):
     weight = models.DecimalField(max_digits=10, decimal_places=1)
     height = models.DecimalField(max_digits=10, decimal_places=1)
     width = models.DecimalField(max_digits=10, decimal_places=2)
+    type_choices = (
+        ("КБТ", "Крупнобытовая техника"),
+        ("МБТ", "Мелкобытовая техника"),
+        ("ТВ", "Телевизоры"),
+        ("НМ", "New Media"),
+        ("Acc", "Аксессуры"),
+    )
+    types = MultiSelectField(choices=type_choices, null=True, blank=True)
     class Meta:
         verbose_name_plural = "Товары"
         verbose_name = "Товар"

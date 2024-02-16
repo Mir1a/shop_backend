@@ -8,7 +8,6 @@ from product.models import Item
 from product.models import Order
 from utils import mixins as utils_mixins
 from utils.third_party.api.rest_framework import paginators as utils_paginators
-
 from . import filters as product_filters
 
 
