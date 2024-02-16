@@ -4,7 +4,6 @@ gettext = lambda s: s
 
 LANGUAGES = (
     ('en', gettext('en')),
-    ('ru', gettext('ru')),
 )
 
 LANGUAGE_CODE = 'en'
