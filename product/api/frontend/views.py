@@ -9,7 +9,7 @@ from product.models import Order
 from utils import mixins as utils_mixins
 from utils.third_party.api.rest_framework import paginators as utils_paginators
 from . import filters as product_filters
-
+from django.db.models import Sum
 
 class ItemViewSet(utils_mixins.DynamicSerializersViewSet,
                   utils_mixins.PrefetchableRetrieveMixin,
@@ -50,7 +50,7 @@ class OrderViewSet(utils_mixins.DynamicSerializersViewSet,
                           "retrieve": serializers.OrderSerializerTake,
                           "create": serializers.OrderSerializerCreate}
 
-    queryset = Order.objects
+    queryset = Order.objects.prefetch_related("items").annotate(Total_sum=Sum("items__price"))
     renderer_classes = [renderers.JSONRenderer]
     permission_classes = [rest_permissions.IsAuthenticated]
     pagination_class = utils_paginators.StandartPagePaginator

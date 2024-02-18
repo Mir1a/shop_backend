@@ -33,8 +33,9 @@ class OrderSerializerTake(general_serializers.OrderSerializer):
 
 
 class OrderSerializerAll(general_serializers.OrderSerializer):
+    Total_sum = serializers.DecimalField(max_digits=10, decimal_places=2)
     class Meta(general_serializers.OrderSerializer.Meta):
-        fields = general_serializers.OrderSerializer.Meta.fields + ("status", "amount_items")
+        fields = general_serializers.OrderSerializer.Meta.fields + ("status", "amount_items", "Total_sum")
 
 
 class OrderSerializerCreate(serializers.ModelSerializer):
