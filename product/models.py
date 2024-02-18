@@ -13,14 +13,8 @@ class Item(models.Model):
     weight = models.DecimalField(max_digits=10, decimal_places=1)
     height = models.DecimalField(max_digits=10, decimal_places=1)
     width = models.DecimalField(max_digits=10, decimal_places=2)
-    type_choices = (
-        ("КБТ", "Крупнобытовая техника"),
-        ("МБТ", "Мелкобытовая техника"),
-        ("ТВ", "Телевизоры"),
-        ("НМ", "New Media"),
-        ("Acc", "Аксессуры"),
-    )
-    types = MultiSelectField(choices=type_choices, null=True, blank=True)
+    types = MultiSelectField(choices=choices.type_choices, null=True, blank=True)
+
     class Meta:
         verbose_name_plural = "Товары"
         verbose_name = "Товар"
@@ -31,10 +25,9 @@ class Item(models.Model):
 
 class Order(models.Model):
     # region           -----Information-----
-    sum_price = models.DecimalField(max_digits=10, decimal_places=2)
-    amount_items = models.PositiveIntegerField()
-    # TODO сделать через choices
-    status = models.IntegerField(choices=choices.order_statuses)
+    sum_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    amount_items = models.PositiveIntegerField(null=True, blank=True)
+    status = models.IntegerField(choices=choices.order_statuses, default=1)
     # endregion
 
     # region           -----Relation-----
