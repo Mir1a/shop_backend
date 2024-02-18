@@ -14,17 +14,14 @@ from ... import models
 
 
 @dispatch.receiver(signals.m2m_changed, sender=models.Order.items.through)
-def order_calculation_init(*args: typing.List,
+def order_calculation_init(sender, instance, action, *args: typing.List,
                            **kwargs: typing.Dict) -> None:
-    # if action == "post_add":
-    #     result = instance.items\
-    #         .all()\
-    #         .aggregate(Count("id"), Sum("price"))
-    #
-    #     models.Order.objects\
-    #         .filter(id=instance.id)\
-    #         .update(amount_items=result.get("id__count"),
-    #                 sum_price=result.get("price__sum"))
-    print(f"{args=}")
-    print(f"{kwargs=}")
+    if action in ["post_add", "post_remove"]:
+        result = instance.items\
+            .all()\
+            .aggregate(Count("id"), Sum("price"))
 
+        models.Order.objects\
+            .filter(id=instance.id)\
+            .update(amount_items=result.get("id__count"),
+                    sum_price=result.get("price__sum"))

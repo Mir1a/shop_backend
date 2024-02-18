@@ -31,7 +31,7 @@ def task1():
 
     items = Item.objects.bulk_create(result_items)
 
-    zakaz_1 = (sum_price=1700,
+    zakaz_1 = Order.objects.create(sum_price=1700,
                                    amount_items=1,
                                    status=True,
                                    user=axe,)

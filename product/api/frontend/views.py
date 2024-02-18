@@ -40,16 +40,19 @@ class ItemViewSet(utils_mixins.DynamicSerializersViewSet,
         return queryset\
             .only("id", "title", "price", "description")
 
+
 class OrderViewSet(utils_mixins.DynamicSerializersViewSet,
-                  utils_mixins.PrefetchableRetrieveMixin,
-                  utils_mixins.PrefetchableListMixin,):
+                   utils_mixins.PrefetchableRetrieveMixin,
+                   utils_mixins.PrefetchableListMixin,
+                   rest_mixins.CreateModelMixin):
     default_serializer_class = product_general_serializer.OrderSerializer
     serializer_classes = {"list": serializers.OrderSerializerAll,
-                          "retrieve": serializers.OrderSerializerTake}
+                          "retrieve": serializers.OrderSerializerTake,
+                          "create": serializers.OrderSerializerCreate}
 
     queryset = Order.objects
     renderer_classes = [renderers.JSONRenderer]
-    permission_classes = []
+    permission_classes = [rest_permissions.IsAuthenticated]
     pagination_class = utils_paginators.StandartPagePaginator
 
     #region sort and filters
@@ -63,4 +66,6 @@ class OrderViewSet(utils_mixins.DynamicSerializersViewSet,
 
     def _prefetch_list(self, queryset):
         return queryset\
-            .only("id", "sum_price", "status", "amount_items")
+            .prefetch_related("items")\
+            .select_related("user")\
+            .only("id", "sum_price", "status", "amount_items", "user", "items")
