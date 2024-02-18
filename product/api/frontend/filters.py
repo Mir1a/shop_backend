@@ -31,7 +31,8 @@ class OrderFilterBackend(rest_filters.BaseFilterBackend):
                         queryset: models.QuerySet,
                         view: views.APIView)\
             -> models.QuerySet:
-        return queryset.filter(sum_price__gte=0)
+        print("request.user", request.user)
+        return queryset.filter(sum_price__gte=0, user_id=request.user.id)
 #endregion
 
 #region ItemFilterSet
