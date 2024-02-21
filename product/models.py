@@ -28,6 +28,7 @@ class Order(models.Model):
     sum_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     amount_items = models.PositiveIntegerField(null=True, blank=True)
     status = models.IntegerField(choices=choices.order_statuses, default=1)
+    discount = models.IntegerField(null=True, blank=True, default=0)
     # endregion
 
     # region           -----Relation-----

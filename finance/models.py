@@ -14,4 +14,4 @@ class Transaction(models.Model):
         verbose_name = "Транзакция"
 
     def __str__(self):
-        return self.id
+        return str(self.code)
