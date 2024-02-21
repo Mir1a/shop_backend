@@ -57,6 +57,54 @@ services:
     networks:
     - back_network
 
+  celery:
+    image: shop-backend-backend
+    container_name: shop-backend-celery
+    working_dir: /usr/src/app/
+    command: celery -A website worker -l error -c 2
+    volumes:
+      - .:/usr/src/app/
+      - back-static:/usr/src/app/allstaticfiles
+      - back-media:/usr/src/app/media
+    environment:
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - ENGINE=django.db.backends.postgresql_psycopg2
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - db
+      - redis
+    networks:
+    - back_network
+
+  celery-beat:
+    image: shop-backend-backend
+    container_name: shop-backend-celery-beat
+    command: celery -A website beat -l error
+    volumes:
+      - .:/usr/src/app/
+      - back-static:/usr/src/app/allstaticfiles
+      - back-media:/usr/src/app/media
+    environment:
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - ENGINE=django.db.backends.postgresql_psycopg2
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - db
+      - redis
+      - celery
+    networks:
+      - back_network
+
 networks:
   back_network:
     driver: bridge
