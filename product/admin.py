@@ -33,7 +33,7 @@ class ItemAdmin(admin.ModelAdmin):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ["id", "user_email", "status", "sum_price", "amount_items", "sum_with_discount"]
     readonly_fields = ["sum_price", "amount_items"]
-    inlines = [MtMOrder_and_Item1]
+    inlines = [MtMOrder_and_Item]
     def get_queryset(self, request):
         queryset = super(OrderAdmin, self) \
             .get_queryset(request)
