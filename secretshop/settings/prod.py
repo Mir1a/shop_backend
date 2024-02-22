@@ -26,8 +26,18 @@ DATABASES = {
     }
 }
 
+# CACHE
 
-MIDDLEWARE = MIDDLEWARE + ['utils.first_party.middleware.Process500Error']
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': f'redis://{os.environ.get("REDIS_HOST","127.0.0.1")}:{os.environ.get("REDIS_PORT",6379)}/1',
+    }
+}
+
+MIDDLEWARE = ['django.middleware.cache.UpdateCacheMiddleware'] + \
+             MIDDLEWARE + \
+             ['django.middleware.cache.FetchFromCacheMiddleware']
 
 # CORS
 INSTALLED_APPS += ['corsheaders']
@@ -37,9 +47,12 @@ MIDDLEWARE.insert(
     'corsheaders.middleware.CorsMiddleware'
 )
 
+MIDDLEWARE.insert(
+    MIDDLEWARE.index('secretshop.middleware.Process4XXError') - 1,
+    'secretshop.middleware.Process500Error'
+)
+
 CORS_ALLOWED_ORIGINS = [
-    f'http://{os.environ.get("PROFILE_DOMAIN")}',
-    f'https://{os.environ.get("PROFILE_DOMAIN")}',
     f'http://{os.environ.get("FRONTEND_DOMAIN")}',
     f'https://{os.environ.get("FRONTEND_DOMAIN")}',
     'http://127.0.0.1:3000',
@@ -47,7 +60,9 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost'
 ]
+
 # 500 middleware
 
 
 print(">>> START PROJECT WITH PROD SETTINGS <<<")
+

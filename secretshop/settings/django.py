@@ -6,13 +6,26 @@ import os
 
 # region			  -----Supporting Variables-----
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+EXCHANGE_RATE_TOKEN = os.environ.get("EXCHANGE_RATE_TOKEN")
+FRONT_DOMAIN = os.environ.get("FRONTEND_DOMAIN")
+GEOIP_PATH = os.environ.get("GEOIP_PATH")
+GOOGLE_APPLICATION_CREDENTIALS = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+GOOGLE_CLOUD_TRANSLATE_PROJECT_ID = os.environ.get('GOOGLE_CLOUD_TRANSLATE_PROJECT_ID')
+GOOGLE_CLOUD_TRANSLATE_LOCATION = os.environ.get('GOOGLE_CLOUD_TRANSLATE_LOCATION')
 # endregion
 
 # region		     -----Application Definition-----
 THIRD_PARTY_APPS = [
-    'jazzmin',
+    'django_admin_search',
+    'django_ckeditor_5',
+    'multiselectfield',
+    'modeltranslation',
     'drf_spectacular',
     'rest_framework',
+    'django_filters',
+    'adminsortable2',
+    'multicurrency',
+    'jazzmin',
 ]
 
 INSTALLED_APPS = [
@@ -23,15 +36,29 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django.forms',
-    'modeltranslation',
-    'django_filters',
+    'django.forms'
 ]
 
 USER_APPS = [
-    'midas',
+    "social_media",
+    'integrations',
+    'blacklist',
+    'messenger',
+    'pipeline',
+    'language',
+    'project',
+    'subject',
+    'settings',
     'finance',
-    'product'
+    'tariff',
+    'price',
+    'image',
+    'exam',
+    'user',
+    'blog',
+    'faq',
+    'geo',
+    'seo'
 ]
 
 LOCALE_PATHS = (
@@ -51,7 +78,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'user.user.middleware.SetLastVisitMiddleware',
+    'secretshop.middleware.Process4XXError',
 ]
+
+AUTHENTICATION_BACKENDS = ['user.user.api.frontend.auth.backend.EmailAndUsernameBackend']
 
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
@@ -81,13 +112,18 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'secretshop.wsgi.application'
+GEOIP_COUNTRY = "GeoLite2-Country.mmdb"
+GEOIP_CITY = "GeoLite2-City.mmdb"
 
 LOGIN_URL = '/admin/login/'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 SITE_ID = 1
 
-AUTH_USER_MODEL = 'midas.User'
+AUTH_USER_MODEL = 'user.User'
+
+SITE_ID = 1
 # endregion
 
 # region			  -----Password Validations-----
@@ -114,8 +150,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-DATETIME_FORMAT = "d.m.Y H:i"
-
 DATE_INPUT_FORMATS = ('%d.%m.%Y', '%Y-%m-%d')
 # endregion
 
@@ -135,6 +169,7 @@ STATICFILES_DIRS = (
 # region				     -----Fields-----
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+MODELTRANSLATION_CUSTOM_FIELDS = ["CKEditor5Field"]
 # endregion
 
 # region				     -----Medias-----
@@ -194,10 +229,10 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
-        'django.db.backends': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-        }
+        # 'django.db.backends': {
+        #     'level': 'DEBUG',
+        #     'handlers': ['console'],
+        # }
     }
 }
 # endregion

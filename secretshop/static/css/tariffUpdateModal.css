@@ -1,0 +1,14 @@
+.blocker {
+    z-index: 100000 !important;
+}
+
+.tariff-bulk-upgrade-modal {
+    overflow: visible;
+    height: fit-content !important;
+    padding: 0 !important;
+    max-width: 700px !important;
+}
+
+.tariff-bulk-upgrade-modal > .close-modal {
+    display: none !important;
+}

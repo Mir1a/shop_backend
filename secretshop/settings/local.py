@@ -27,7 +27,7 @@ DATABASES = {
         'ENGINE': os.environ.get('ENGINE'),
         'ATOMIC_REQUESTS': True,
         'TEST': {
-            'NAME': 'tests',
+            'NAME': 'bycomment_tests',
         },
     }
 }

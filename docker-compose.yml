@@ -61,7 +61,7 @@ services:
     image: shop-backend-backend
     container_name: shop-backend-celery
     working_dir: /usr/src/app/
-    command: celery -A website worker -l error -c 2
+    command: celery -A secretshop worker -l error -c 2
     volumes:
       - .:/usr/src/app/
       - back-static:/usr/src/app/allstaticfiles
@@ -84,7 +84,7 @@ services:
   celery-beat:
     image: shop-backend-backend
     container_name: shop-backend-celery-beat
-    command: celery -A website beat -l error
+    command: celery -A secretshop beat -l error
     volumes:
       - .:/usr/src/app/
       - back-static:/usr/src/app/allstaticfiles
