@@ -20,41 +20,11 @@ app.conf.broker_transport_options = {
 
 
 beat_schedules = {
-    "task_update_project_vip": {
-        "task": "task_update_project_vip",
-        "schedule": crontab(minute=1, hour=0),
-        "args": (),
-    },
-    "task_project_activity_days": {
-        "task": "task_project_activity_days",
-        "schedule": crontab(minute=1, hour=0),
-        "args": (),
-    },
-    "task_days_to_complete_projects": {
-        "task": "task_days_to_complete_projects",
-        "schedule": crontab(minute=1, hour=0),
-        "args": (),
-    },
-    "task_verification_code_recycle": {
-        "task": "task_verification_code_recycle",
-        "schedule": crontab(minute=1, hour=0),
-        "args": (),
-    },
-    "task_get_the_exchange_rate": {
-        "task": "task_get_the_exchange_rate",
-        "schedule": crontab(minute=1, hour="*/4"),
-        "args": (),
-    },
-    "calculate_average_price_for_tariff": {
-        "task": "calculate_average_price_for_tariff",
-        "schedule": crontab(minute=1, hour="*/4"),
-        "args": (),
-    },
-    "check_project_lifetime": {
-        "task": "check_project_lifetime",
-        "schedule":  crontab(),
-        "args": ()
-    }
+    # "task_update_project_vip": {
+    #     "task": "task_update_project_vip",
+    #     "schedule": crontab(minute=1, hour=0),
+    #     "args": (),
+    # }
 }
 
 app.conf.beat_schedule = beat_schedules

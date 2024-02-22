@@ -48,7 +48,7 @@ MIDDLEWARE.insert(
 )
 
 MIDDLEWARE.insert(
-    MIDDLEWARE.index('secretshop.middleware.Process4XXError') - 1,
+    # MIDDLEWARE.index('secretshop.middleware.Process4XXError') - 1,
     'secretshop.middleware.Process500Error'
 )
 
