@@ -8,8 +8,6 @@ import logging
 # endregion
 
 # region			  -----Supporting Variables-----
-from utils.exception import ExtendedValidationError
-
 logger = logging.getLogger(__file__)
 # endregion
 
@@ -32,18 +30,3 @@ class Process500Error(object):
             "success": False
         }, status=500)
 
-
-class Process4XXError(object):
-    def __init__(self, get_response: Callable) -> None:
-        self._get_response = get_response
-
-    def __call__(self, request: Dict) -> Dict:
-        response = self._get_response(request)
-
-        return response
-
-    def process_exception(self, request: Dict,
-        exception: Exception)\
-            -> django_http.JsonResponse:
-        if isinstance(exception, ExtendedValidationError):
-            return django_http.JsonResponse({"detail": exception.detail}, status=exception.status_code)
