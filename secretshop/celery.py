@@ -18,14 +18,20 @@ app.conf.broker_transport_options = {
     'queue_order_strategy': 'priority',
 }
 
-
 beat_schedules = {
+    'run_cost_up_task': {
+        'task': 'cost_up',
+        'schedule': crontab(minute='*/1')
+    },
+}
+
+#beat_schedules = {
     # "task_update_project_vip": {
     #     "task": "task_update_project_vip",
     #     "schedule": crontab(minute=1, hour=0),
     #     "args": (),
     # }
-}
+#}
 
 app.conf.beat_schedule = beat_schedules
 
