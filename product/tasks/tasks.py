@@ -9,7 +9,7 @@ from django.db import models
 import celery
 from django import utils
 from django.utils import timezone
-from django.db.models import ValueRange
+from django.db.models import ValueRange, F
 # endregion
 
 # region				-----Internal Imports-----
@@ -22,7 +22,7 @@ from django.db.models import ValueRange
 @celery.shared_task(name="cost_up")
 def cost_up()\
         -> None:
-    project_query = Item.objects.all()
-    for item in project_query:
-        item.price += 5
-        item.save()
+    project_query = Item.objects.all().update(price=F("price")+5)
+    # for item in project_query:
+    #     item.price += 5
+    #     item.save()
