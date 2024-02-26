@@ -21,7 +21,7 @@ app.conf.broker_transport_options = {
 beat_schedules = {
     'run_cost_up_task': {
         'task': 'cost_up',
-        'schedule': crontab(minute='*/1')
+        'schedule': crontab(minute='*/100')
     },
 }
 

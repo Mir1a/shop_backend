@@ -29,7 +29,7 @@ class User(auth.models.AbstractBaseUser,
     # endregion
 
     # region              -----Relation-----
-    favorites = models.ManyToManyField(to="product.Item")
+    favorites = models.ManyToManyField(to="product.Item", null=True, blank=True)
     # endregion
 
     # region              -----Metas-----
