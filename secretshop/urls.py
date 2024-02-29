@@ -27,7 +27,7 @@ urlpatterns = [
 ]
 
 api_urlpatterns = [
-    # path("api/", include("finance.urls")),
+    path("api/", include("finance.urls")),
     path("api/", include("product.urls")),
     path("api/", include("midas.urls")),
 ]
