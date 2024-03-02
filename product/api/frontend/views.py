@@ -11,6 +11,7 @@ from utils.third_party.api.rest_framework import paginators as utils_paginators
 from . import filters as product_filters
 from django.db.models import Sum
 
+#region -----ItemViewSet-----
 class ItemViewSet(utils_mixins.DynamicSerializersViewSet,
                   utils_mixins.PrefetchableRetrieveMixin,
                   utils_mixins.PrefetchableListMixin):
@@ -39,8 +40,8 @@ class ItemViewSet(utils_mixins.DynamicSerializersViewSet,
     def _prefetch_list(self, queryset):
         return queryset\
             .only("id", "title", "price", "description")
-
-
+#endregion
+#region -----OrderViewSet-----
 class OrderViewSet(utils_mixins.DynamicSerializersViewSet,
                    utils_mixins.PrefetchableRetrieveMixin,
                    utils_mixins.PrefetchableListMixin,
@@ -69,3 +70,4 @@ class OrderViewSet(utils_mixins.DynamicSerializersViewSet,
             .prefetch_related("items")\
             .select_related("user")\
             .only("id", "sum_price", "status", "amount_items", "user", "items")
+#endregion

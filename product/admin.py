@@ -5,6 +5,7 @@ from midas.models import User
 from .models import Item
 from .models import Order
 from .models import Supply
+from .models import Supply_sender
 
 #ForeignKey простой
 class OrderInLine(admin.TabularInline):
@@ -62,3 +63,4 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Supply)
+admin.site.register(Supply_sender)
