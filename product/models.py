@@ -14,6 +14,7 @@ class Item(models.Model):
     height = models.DecimalField(max_digits=10, decimal_places=1)
     width = models.DecimalField(max_digits=10, decimal_places=2)
     types = MultiSelectField(max_length=10, choices=choices.type_choices, null=True, blank=True, default=1)
+    count = models.IntegerField(null=True, blank=False, default=0)
 
     class Meta:
         verbose_name_plural = "Товары"
