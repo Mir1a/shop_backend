@@ -16,3 +16,5 @@ frontend_router.register(viewset=frontend_restful.ItemViewSet,
                          prefix="frontend/item")
 frontend_router.register(viewset=frontend_restful.OrderViewSet,
                          prefix="frontend/order")
+frontend_router.register(viewset=frontend_restful.Supply_senderViewSet,
+                         prefix="frontend/supply_sender")
