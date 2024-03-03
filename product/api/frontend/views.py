@@ -1,12 +1,14 @@
 #region -----Library Import-----
-from rest_framework import filters as rest_filters, mixins as rest_mixins, renderers, permissions as rest_permissions
+from rest_framework import filters as rest_filters, mixins as rest_mixins, renderers, permissions as rest_permissions, viewsets, status
+from rest_framework.mixins import RetrieveModelMixin
+from rest_framework.response import Response
 from django import shortcuts
 from django_filters import rest_framework as filters
 from django.db.models import Sum
 import pandas as pd
 import io
 from django.http import HttpResponse
-from rest_framework import permissions as rest_permissions
+from rest_framework.parsers import MultiPartParser, FormParser
 #endregion
 
 #region -----Local Import-----
@@ -17,6 +19,7 @@ from ..general import serializers as product_general_serializer
 from product.models import Item
 from product.models import Order
 from product.models import Supply_sender
+from product.models import Supply
 from utils import mixins as utils_mixins
 from utils.third_party.api.rest_framework import paginators as utils_paginators
 #endregion
@@ -84,41 +87,30 @@ class OrderViewSet(utils_mixins.DynamicSerializersViewSet,
             .only("id", "sum_price", "status", "amount_items", "user", "items")
 #endregion
 #region -----Supply_senderViewSet-----
-class Supply_senderViewSet(utils_mixins.PrefetchableListMixin):
+class Supply_senderViewSet(viewsets.GenericViewSet, RetrieveModelMixin):
     serializer_class = product_general_serializer.Supply_senderSerializer
     permission_classes = [rest_permissions.AllowAny]
-    queryset = Supply_sender.objects
+    queryset = Supply_sender.objects.all()
 
-    def list(self, request, *args, **kwargs):
-        # region -----ViewSet_settings-----
-        queryset = self.queryset
-        serializer = self.get_serializer(queryset, many=True)
-        # endregion
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
 
-        data = serializer.data
-        df = pd.DataFrame(data)
+        df = pd.DataFrame([serializer.data])
 
         excel_file = io.BytesIO()
-
         df.to_excel(excel_file, index=False)
-
         excel_file.seek(0)
 
-        response = HttpResponse(excel_file.read(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response = HttpResponse(excel_file.read(),
+                                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename="transaction_data.xlsx"'
         return response
 #endregion
 #region -----SupplyViewSet-----
-from rest_framework import viewsets, status
-from rest_framework.response import Response
-import pandas as pd
-from product.models import Item, Supply_sender, Supply
-from ..general import serializers
-from rest_framework.parsers import MultiPartParser, FormParser
-
 class SupplyViewSet(viewsets.ViewSet):
 
-    serializer_class = serializers.SupplySerializer
+    serializer_class = product_general_serializer.SupplySerializer
     queryset = Supply.objects
     permission_classes = [rest_permissions.AllowAny]
     parser_classes = [MultiPartParser, FormParser]
