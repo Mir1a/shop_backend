@@ -108,3 +108,25 @@ class Supply_senderViewSet(utils_mixins.PrefetchableListMixin):
         response['Content-Disposition'] = 'attachment; filename="transaction_data.xlsx"'
         return response
 #endregion
+#region -----SupplyViewSet-----
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+import pandas as pd
+from product.models import Item, Supply_sender, Supply
+from ..general import serializers
+from rest_framework.parsers import MultiPartParser, FormParser
+
+class SupplyViewSet(viewsets.ViewSet):
+
+    serializer_class = serializers.SupplySerializer
+    queryset = Supply.objects
+    permission_classes = [rest_permissions.AllowAny]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def create(self, request, pk=None):
+        file_obj = request.FILES.get('file')
+        if not file_obj:
+            return Response({'error': 'No file received'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+#endregion

@@ -22,7 +22,6 @@ class ItemSerializerAll(general_serializers.ItemSerializer):
         fields = general_serializers.ItemSerializer.Meta.fields\
                  + ("price", "description")
 #endregion
-
 #region order serializers
 class OrderSerializerTake(general_serializers.OrderSerializer):
     items = ItemSerializerTake(many=True)
