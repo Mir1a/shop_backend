@@ -60,16 +60,11 @@ class OrderAdmin(admin.ModelAdmin):
         return formatted_sum
 
 @admin.register(Supply_sender)
-class OrderAdmin(admin.ModelAdmin):
-    list_display = ["display_items_amount"]
+class Supply_admin(admin.ModelAdmin):
+    list_display = ["id", "items_in_supply", "amount"]
 
-    def display_items_amount(self, obj):
-        items = obj.item.all()
-        return format_html_join(
-            ", ", "{} ({})", ((item.title, obj.amount) for item in items)
-        )
-
-    display_items_amount.short_description = "Items and Amount"
+    def items_in_supply(self, obj):
+        return " ".join(item.title for item in obj.item.all())
 
 
 

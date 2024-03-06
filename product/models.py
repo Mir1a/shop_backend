@@ -62,4 +62,4 @@ class Supply_sender(models.Model):
         verbose_name = "Поставка на отправление"
 
     def __str__(self):
-        return ", ".join(str(item) for item in self.item.all())
+        return str(self.id)
