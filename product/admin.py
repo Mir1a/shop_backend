@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.db import models
+from django.utils.html import format_html_join
 
 from midas.models import User
 from .models import Item
@@ -58,9 +59,18 @@ class OrderAdmin(admin.ModelAdmin):
         formatted_sum = '{:.2f}'.format(instance.sum_with_discount) #не забыть {} :-начало формата, .2 - к-во знаков после запятой, f - формат float
         return formatted_sum
 
+@admin.register(Supply_sender)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ["display_items_amount"]
 
+    def display_items_amount(self, obj):
+        items = obj.item.all()
+        return format_html_join(
+            ", ", "{} ({})", ((item.title, obj.amount) for item in items)
+        )
+
+    display_items_amount.short_description = "Items and Amount"
 
 
 
 admin.site.register(Supply)
-admin.site.register(Supply_sender)

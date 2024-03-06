@@ -56,10 +56,10 @@ class Supply(models.Model):
 class Supply_sender(models.Model):
     item = models.ManyToManyField(to="product.Item", related_name="supply_sender")
     amount = models.IntegerField(null=False, blank=False)
-    code = models.IntegerField(unique=True, null=True, blank=True)
+
     class Meta:
         verbose_name_plural = "Поставки на отправление"
         verbose_name = "Поставка на отправление"
 
     def __str__(self):
-        return str(self.code)
+        return ", ".join(str(item) for item in self.item.all())
