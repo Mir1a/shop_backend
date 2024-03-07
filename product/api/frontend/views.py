@@ -1,6 +1,6 @@
 #region -----Library Import-----
 from rest_framework import filters as rest_filters, mixins as rest_mixins, renderers, permissions as rest_permissions, viewsets, status
-from rest_framework.mixins import RetrieveModelMixin
+from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 from rest_framework.response import Response
 from django import shortcuts
 from django_filters import rest_framework as filters
@@ -87,16 +87,16 @@ class OrderViewSet(utils_mixins.DynamicSerializersViewSet,
             .only("id", "sum_price", "status", "amount_items", "user", "items")
 #endregion
 #region -----Supply_senderViewSet-----
-class Supply_senderViewSet(viewsets.GenericViewSet, RetrieveModelMixin):
+class Supply_senderViewSet(viewsets.GenericViewSet, ListModelMixin):
     serializer_class = product_general_serializer.Supply_senderSerializer
     permission_classes = [rest_permissions.AllowAny]
     queryset = Supply_sender.objects.all()
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
 
-        df = pd.DataFrame([serializer.data])
+        df = pd.DataFrame(serializer.data)
 
         excel_file = io.BytesIO()
         df.to_excel(excel_file, index=False)

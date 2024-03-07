@@ -14,8 +14,8 @@ def update_item_amount(sender, instance, created, **kwargs):
         wb = openpyxl.load_workbook(instance.data)
         sheet = wb.active
         for row in sheet.iter_rows(values_only=True):
-            item_name = row[0]
-            amount = row[1]
+            item_name = row[1]
+            amount = row[2]
             try:
                 item = Item.objects.get(title=item_name.strip())
                 item.amount += amount

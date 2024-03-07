@@ -27,12 +27,12 @@ class Supply_senderSerializer(serializers.ModelSerializer):
     item_names = serializers.SerializerMethodField()
     class Meta:
         model = Supply_sender
-        fields = ("item_names", "amount", "code")
+        fields = ("id", "item_names", "amount",)
 
     def get_item_names(self, instance):
         items = instance.item.all()
         item_names = ', '.join(
-            [item.title for item in items])  # Используем join для объединения имен элементов в одну строку
+            [item.title for item in items])
         return item_names
 #endregion
 #region -----SupplySerializer-----
