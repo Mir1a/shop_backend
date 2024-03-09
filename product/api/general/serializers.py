@@ -37,7 +37,7 @@ class Supply_senderSerializer(serializers.ModelSerializer):
 #endregion
 #region -----SupplySerializer-----
 class SupplySerializer(serializers.ModelSerializer):
-    data = serializers.FileField(required=True, use_url=False)
+    data = serializers.FileField(required=True, use_url=True)
 
     class Meta:
         model = Supply

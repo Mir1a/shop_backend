@@ -1,6 +1,6 @@
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'By coment API',
-    'DESCRIPTION': 'By coment Swagger API',
+    'TITLE': 'API',
+    'DESCRIPTION': 'Swagger API',
     'VERSION': '0.0.1',
     'SERVE_INCLUDE_SCHEMA': False,
     'COMPONENT_SPLIT_REQUEST': False,
